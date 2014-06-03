@@ -21,6 +21,18 @@ module Powify
       end
       alias_method :link, :create
       alias_method :new, :create
+      
+      # powify static
+      # powify static foo
+      def static(args = [])
+        app_name = args[0] ? args[0].strip.to_s.downcase : File.basename(current_path)
+        base_path = "#{POWPATH}/#{app_name}"
+        symlink_path = "#{base_path}/public"
+        FileUtils.mkdir_p(base_path)
+        FileUtils.ln_s(current_path, symlink_path)
+        $stdout.puts "Successfully created static pow app #{app_name}!"
+        $stdout.puts "Type `powify browse #{app_name}` to open the application in your browser."
+      end
 
       # powify destroy
       # powify destroy foo
